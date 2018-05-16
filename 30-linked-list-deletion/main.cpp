@@ -23,7 +23,7 @@ class Solution{
 			Node *start = head;
 			while(start) {
 				int prev_data = start->data;
-				if(start->next->data == prev_data) {	// delete duplicate data 
+				if(start->next != NULL && start->next->data == prev_data) {	// delete duplicate data 
 					Node *tmp = start->next;
 					start->next = start->next->next;
 					delete tmp;
