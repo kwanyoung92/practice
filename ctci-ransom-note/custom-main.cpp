@@ -57,14 +57,15 @@ int main()
 		Node* n = new Node(magazine[i]);
 		hash_insert(hash, n);
 	}
-	
-	if(hash_find(hash, ransom[0])) {
-		cout << "find" << endl;
+
+	for (int i = 0; i < n; ++i) {
+		if(!hash_find(hash, ransom[i])) {
+			cout << "No";
+			break;
+		}
 	}
-	else {
-		cout << "not find" << endl;
-	}
 	
+	cout << "Yes";	
 	
     return 0;
 }
@@ -114,7 +115,7 @@ void hash_insert(vector<Node*> &hash, Node* n) {
 
 bool hash_find(vector<Node*>& hash, string str) {
 	unsigned int hashed_idx = x65599(str) % hash.size();
-	if(!hash[hashed_idx]) {	// find data
+	if(hash[hashed_idx]) {	// find data
 		Node* tmp = hash[hashed_idx];
 		if(tmp->data == str) {
 			Node* buffer = tmp;
@@ -136,11 +137,6 @@ bool hash_find(vector<Node*>& hash, string str) {
 	}
 	else return false;
 }
-		
-
-
-
-
 
 unsigned int x65599(const string str) {
 	unsigned int hash = 0;
