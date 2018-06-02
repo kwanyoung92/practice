@@ -61,7 +61,7 @@ int main()
 	for (int i = 0; i < n; ++i) {
 		if(!hash_find(hash, ransom[i])) {
 			cout << "No";
-			break;
+			return 0;
 		}
 	}
 	
@@ -119,8 +119,9 @@ bool hash_find(vector<Node*>& hash, string str) {
 		Node* tmp = hash[hashed_idx];
 		if(tmp->data == str) {
 			Node* buffer = tmp;
-			tmp = tmp->next;
+			hash[hashed_idx] = hash[hashed_idx]->next;
 			free(buffer);
+			return true;
 		}
 		else {
 			while(tmp->next) {
@@ -128,14 +129,13 @@ bool hash_find(vector<Node*>& hash, string str) {
 					Node* buffer = tmp->next;
 					tmp->next = tmp->next->next;
 					free(buffer);
-					break;
+					return true;
 				}
 				tmp = tmp->next;
 			}
 		}
-		return true;
 	}
-	else return false;
+	return false;
 }
 
 unsigned int x65599(const string str) {
