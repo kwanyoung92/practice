@@ -36,9 +36,6 @@ class Queue {
 
 void Stack::push(char data) {
 	if(this->is_full()) {
-		cout << "size : " << stack.size() << endl;
-		cout << "top : " << top << endl;
-		cout << "Error: Stack is full. Can't push more data." << endl;
 		return;
 	}
 
@@ -47,7 +44,7 @@ void Stack::push(char data) {
 }
 
 char Stack::pop() {
-	if(this->is_empty()) {
+	if(!this->is_empty()) {
 		char return_value = stack[top];
 		--top;
 		return return_value;
@@ -65,7 +62,7 @@ bool Stack::is_empty() {
 
 bool Stack::is_full() {
 	if(stack.size() == top) return true;
-	else false;
+	else return false;
 }
 
 void Queue::enqueue(char data) {
@@ -96,8 +93,22 @@ bool Queue::is_empty() {
 
 bool Queue::is_full() {
 	if(queue.size() == tail) return true;
-	else false;
+	else return false;
 }
+
+char find_couple_bracket(char bracket) {
+	switch(bracket) {
+		case '(' :
+			return ')';
+		case '[' :
+			return ']';
+		case '{' :
+			return '}';
+		default :
+			return '\0';
+	}
+}
+
 
 int main()
 {
@@ -118,18 +129,16 @@ int main()
 
 		for(int i = 0; i < str_length; ++i) {
 			if(i < str_length / 2) {
-				cout << "push data : " << expression[i] << endl;
 				s.push(expression[i]);
 			}
 			else {
-				cout << "enqueue data : " << expression[i] << endl;
 				q.enqueue(expression[i]);
 			}
 		}
 		
 		bool flag = true;
 		for(int i = 0; i < str_length / 2; ++i) {
-			if(s.pop() != q.dequeue()) {
+			if(find_couple_bracket(s.pop()) != q.dequeue()) {
 				flag = false;
 				break;
 			}
