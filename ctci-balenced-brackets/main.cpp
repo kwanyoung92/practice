@@ -11,12 +11,12 @@ class Bracket {
         }
         char find_pair_bracket() {
             switch(bracket) {
-                case '(' :
-                    return ')';
-                case '{' :
-                    return '}';
-                case '[' :
-                    return ']';
+                case ')' :
+                    return '(';
+                case '}':
+                    return '{';
+                case ']' :
+                    return '[';
                 default :
                     return '\0';
             }
@@ -72,6 +72,9 @@ int main()
                 }
             }
         }
+        if(!bracket_stack.empty()) {
+            flag = false; 
+        }
         result_vector.push_back(flag);
     }
     
@@ -86,4 +89,3 @@ int main()
 
     return 0;
 }
-
