@@ -33,7 +33,6 @@ class Bracket {
 
 int main()
 {
-    stack<char> bracket_stack;
     vector<bool> result_vector;
     
     int t;
@@ -45,6 +44,7 @@ int main()
         getline(cin, expression);
            
         int str_length = expression.size();
+    	stack<char> bracket_stack;
         bool flag = true;
         for(int i = 0; i < str_length; ++i) {
             Bracket b(expression[i]);
