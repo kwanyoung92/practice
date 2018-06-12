@@ -23,50 +23,36 @@
 
 using namespace std;
 
-typedef struct multiples {
-	int n;
-	int sum;
-}multiples;
+long long cal_sum(int base, int n) {
+	int max_base = 0;
+
+	for(int i = n - 1; i >= base; --i) {
+		if(i % base == 0) { 
+			max_base = i;
+			break;
+		}
+	}
+	long long div = ((n - 1) / base);
+
+	long long sum = (div*(base + max_base)) / 2;
+	return sum;
+}
+
 
 int main(){
     int t;
     cin >> t;
 	
-	vector<multiples> result;
+	vector<long long> result;
 
     for(int a0 = 0; a0 < t; a0++){
         int n;
         cin >> n;
-
-		int start = 3;
-		int sum = 0;
-
-		if(!result.empty()) {
-			for(int i = 0; i < result.size(); ++i) {
-				if(start < result[i].n && start < n) {
-					start = result[i].n;
-					sum = result[i].sum;
-				}
-			}
-		}
-
-		for(int i = start; i < n; ++i) {
-			if(i % 3 == 0) {
-				sum += i;
-			}
-			else if(i % 5 == 0) {
-				sum += i;
-			}
-		}
-		multiples result_mul;
-		result_mul.n = start;
-		result_mul.sum = sum;
-		result.push_back(result_mul);
+		result.push_back(cal_sum(3, n) + cal_sum(5, n) - cal_sum(15, n));
     }
 
 	for(int i = 0; i < result.size(); ++i) {
-		cout << result[i].sum << endl;
+		cout << result[i] << endl;
 	}
-
     return 0;
 }
