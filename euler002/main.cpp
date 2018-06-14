@@ -3,43 +3,26 @@
 
 using namespace std;
 
-long long fib_cal(long n);
-long long fib(long n, long long *memo);
+unsigned long long fib_even(vector<unsigned long long> &memo, long n);
 
 int main(){
-	vector<long long> result;
+	vector<unsigned long long> result;
+	vector<unsigned long long> fib_even_array;
 
     int t;
     cin >> t;
     for(int a0 = 0; a0 < t; a0++){
         long n;
         cin >> n;
-		cout << "Fib value : " << fib_cal(n) << endl;
-		result.push_back(fib_cal(n));
+		cout << fib_even(fib_even_array, n) << endl;
     }
-	for(int i = 0; i < t; ++i) {
-		cout << result[i] << endl;
-	}
     return 0;
 }
 
-long long fib_cal(long n) {
-	long long sum = 0;
-	long long *memo = new long long [n+1];
-	for(long i = 0; i < n; ++i) {
-		long long tmp_fib = fib(i, memo);
-		if(tmp_fib % 2 == 0) {
-			sum += tmp_fib;
-		}
-	}
-	return sum;
-}
-
-long long fib(long n, long long *memo) {
+unsigned long long fib_even(vector<unsigned long long> &memo, long n) {
 	if(n <= 0) return 0;
-	else if (n == 1) return 1;
+	else if (n == 1) return 2;
 	else if (memo[n] > 0) return memo[n];
-
-	memo[n] = fib(n-1, memo) + fib(n-2, memo);
+	memo.push_back(4 * fib_even(memo, n - 1) + fib_even(memo, n - 2));
 	return memo[n];
 }
