@@ -34,13 +34,13 @@ int minuteToWinIt(vector<int> a, int k) {
 
 	int minutes = 0;
 	for(int i = start_idx; i >= 1; --i) {
-		if(a[i] - a[i-1] == k) {
+		if(a[i-1] + k != a[i]) {
 			++minutes;
 			a[i-1] = a[i] - k;
 		}
 	}
 	for(int i = finish_idx + 1; i < a.size(); ++i) {
-		if(a[i] - a[i-1] != k) {
+		if(a[i-1] + k != a[i]) {
 			++minutes;
 			a[i] = a[i-1] + k;
 		}
