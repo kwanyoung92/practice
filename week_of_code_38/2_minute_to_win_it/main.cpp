@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#define MAX_NUM 100001
 
 using namespace std;
 
@@ -8,30 +7,45 @@ vector<string> split_string(string);
 // Complete the minuteToWinIt function below.
 int minuteToWinIt(vector<int> a, int k) {
     // Return the minimum amount of time in minutes.
-	int min = MAX_NUM;
+	vector<int> a_sub(a.size()-1);
 
-	for(int i = 1; i < a.size(); ++i) {
-		int minutes = 0;
+	for(int i = 0; i < a_sub.size(); ++i) {
+		a_sub[i] = a[i+1]-a[i];
+	}
 
-		for(int j = i; j < a.size(); ++j) {
-			if(a[i-1] + k != a[i]) {
-				a[i] = a[i-1] + k;
-				++minutes;
-			}
+	int cnt = 0;
+	int max_sequence_k = 0;
+	int start_idx = 0;
+	int finish_idx = a.size();
+
+	for(int i = 0; i < a_sub.size(); ++i) {
+		if(a_sub[i] == k) {
+			++cnt;
 		}
-		for(int j = i; j >= 1; --j) {
-			if(a[i] - abs(k) != a[i-1]) {
-				a[i-1] = a[i] - abs(k);
-				++minutes;
+		else {
+			if(cnt > max_sequence_k) {
+				max_sequence_k = cnt;
+				finish_idx = i;
+				start_idx = i - cnt;
+				cnt = 0;
 			}
-		}
-
-		if(min > minutes) {
-			min = minutes;
 		}
 	}
-	
-	return min;
+
+	int minutes = 0;
+	for(int i = start_idx; i >= 1; ++i) {
+		if(abs(a[i]) - abs(k) != abs(a[i-1])) {
+			++minutes;
+			a[i-1] = a[i] - abs(k);
+		}
+	}
+	for(int i = finish_idx + 1; i < a.size(); ++i) {
+		if(a[i-1] + k != a[i]) {
+			++minutes;
+			a[i] = a[i-1] + k;
+		}
+	}
+	return minutes;
 }
 
 int main()
@@ -62,7 +76,7 @@ int main()
 
     int result = minuteToWinIt(a, k);
 
-    fout << result << "\n";
+   // fout << result << "\n";
     cout << result << "\n";
 
     fout.close();
@@ -98,4 +112,3 @@ vector<string> split_string(string input_string) {
 
     return splits;
 }
-
