@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#define MAX_NUM 100001
 
 using namespace std;
 
@@ -7,45 +8,46 @@ vector<string> split_string(string);
 // Complete the minuteToWinIt function below.
 int minuteToWinIt(vector<int> a, int k) {
     // Return the minimum amount of time in minutes.
-	vector<int> a_sub(a.size()-1);
 
-	for(int i = 0; i < a_sub.size(); ++i) {
-		a_sub[i] = a[i+1] - a[i];
+	// Find minimum amount of time in minutes index.
+	vector<int> sub_arr(a.size() - 1);
+
+	for(int i = 0; i < sub_arr.size(); ++i) {
+		sub_arr[i] = a[i+1] - a[i];
 	}
 
-	int cnt = 0;
-	int max_sequence_k = 0;
+	int consecutive_k = MAX_NUM;
+	int consecutive_tmp = 0;
+
 	int start_idx = 0;
 	int finish_idx = a.size();
 
-	for(int i = 0; i < a_sub.size(); ++i) {
-		if(a_sub[i] == k) {
-			++cnt;
+	for(int i = 0; i < sub_arr.size(); ++i) {
+		if(sub_arr[i] == k) {
+			++consecutive_tmp;
 		}
 		else {
-			if(cnt > max_sequence_k) {
-				max_sequence_k = cnt;
+			if(consecutive_tmp < consecutive_k) {
+				consecutive_k = consecutive_tmp;
 				finish_idx = i;
-				start_idx = i - cnt;
-				cnt = 0;
+				start_idx = i - consecutive_tmp - 1;
+				consecutive_tmp = 0;
+			}
+		}
+
+		if(i == (sub_arr.size() - 1)) {
+			if(consecutive_tmp < consecutive_k) {
+				consecutive_k = consecutive_tmp;
+				finish_idx = i + 1;
+				start_idx = i - consecutive_tmp;
+				consecutive_tmp = 0;
 			}
 		}
 	}
-
-	int minutes = 0;
-	for(int i = start_idx; i >= 1; --i) {
-		if(a[i-1] + k != a[i]) {
-			++minutes;
-			a[i-1] = a[i] - k;
-		}
-	}
-	for(int i = finish_idx + 1; i < a.size(); ++i) {
-		if(a[i-1] + k != a[i]) {
-			++minutes;
-			a[i] = a[i-1] + k;
-		}
-	}
-	return minutes;
+	cout << "start_idx : " << start_idx << endl;
+	cout << "finish_idx : " << finish_idx << endl;
+	
+	return 0;
 }
 
 int main()
@@ -76,8 +78,7 @@ int main()
 
     int result = minuteToWinIt(a, k);
 
-   // fout << result << "\n";
-    cout << result << "\n";
+    fout << result << "\n";
 
     fout.close();
 
