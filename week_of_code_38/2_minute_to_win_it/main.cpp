@@ -10,7 +10,7 @@ int minuteToWinIt(vector<int> a, int k) {
 	vector<int> a_sub(a.size()-1);
 
 	for(int i = 0; i < a_sub.size(); ++i) {
-		a_sub[i] = a[i+1]-a[i];
+		a_sub[i] = a[i+1] - a[i];
 	}
 
 	int cnt = 0;
@@ -33,14 +33,14 @@ int minuteToWinIt(vector<int> a, int k) {
 	}
 
 	int minutes = 0;
-	for(int i = start_idx; i >= 1; ++i) {
-		if(abs(a[i]) - abs(k) != abs(a[i-1])) {
+	for(int i = start_idx; i >= 1; --i) {
+		if(a[i] - a[i-1] == k) {
 			++minutes;
-			a[i-1] = a[i] - abs(k);
+			a[i-1] = a[i] - k;
 		}
 	}
 	for(int i = finish_idx + 1; i < a.size(); ++i) {
-		if(a[i-1] + k != a[i]) {
+		if(a[i] - a[i-1] != k) {
 			++minutes;
 			a[i] = a[i-1] + k;
 		}
