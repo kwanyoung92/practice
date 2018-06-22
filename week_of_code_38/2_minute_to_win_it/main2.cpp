@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#define MAX 100001 
 
 using namespace std;
 
@@ -8,14 +9,49 @@ vector<string> split_string(string);
 int minuteToWinIt(vector<int> a, int k) {
     // Return the minimum amount of time in minutes.
 
-	// Uncorrect Brute case
+	int min_consecutive = MAX, tmp_consecutive = 0;
+	int start_idx = 0, finish_idx = 0;
+
+	for(int i = 0; i < a.size(); ++i) {
+		if(a[i-1] + k == a[i]) {
+			++tmp_consecutive;
+		}
+		else {
+			if(tmp_consecutive != 0 && tmp_consecutive < min_consecutive) {
+				finish_idx = i - 1;
+				if(tmp_consecutive == 1) {	// case 3
+					start_idx = i - 1;
+				}
+				else {	//case 1
+					start_idx = i - 1 - tmp_consecutive;
+				}
+				min_consecutive = tmp_consecutive;
+				tmp_consecutive = 0;
+			}
+		}
+		if(i == a.size() - 1) {	// case 2, 4
+			if(min_consecutive != MAX) {
+				finish_idx = i;
+				start_idx = i - tmp_consecutive;
+			}
+		}
+	}
+
 	int minutes = 0;
-	for(int i = 1; i < a.size(); ++i) {
+	for(int i = start_idx; i >= 1; --i) {
+		if(a[i-1] + k != a[i]) {
+			++minutes;
+			a[i-1] = a[i] - abs(k);
+		}
+	}
+
+	for(int i = finish_idx; i < a.size(); ++i) {
 		if(a[i-1] + k != a[i]) {
 			++minutes;
 			a[i] = a[i-1] + k;	
 		}
 	}
+
 	return minutes;
 }
 
@@ -48,6 +84,7 @@ int main()
     int result = minuteToWinIt(a, k);
 
     fout << result << "\n";
+    cout << result << "\n";
 
     fout.close();
 

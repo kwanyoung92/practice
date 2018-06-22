@@ -7,18 +7,14 @@ vector<string> split_string(string);
 // Complete the whichSection function below.
 int whichSection(int n, int k, vector<int> a) {
     // Return the section number you will be assigned to assuming you are student number k.
-	// Brute case - O(n)
-	int front = 1;
-	int last = a[0];
-	int section = 1;
+
+	int section = 0;
+	int section_pivot = 0;
 	for(int i = 0; i < a.size(); ++i) {
-		if(k >= front && k <= last) {
+		++section;
+		section_pivot += a[i];
+		if(k <= section_pivot) {
 			return section;
-		}
-		else {
-			front = last + 1;
-			last = a[i+1] + last;
-			++section;
 		}
 	}
 }
@@ -94,3 +90,4 @@ vector<string> split_string(string input_string) {
 
     return splits;
 }
+
